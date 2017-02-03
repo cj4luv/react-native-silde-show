@@ -30,38 +30,46 @@ class App extends Component {
     }
   }
 
-  // //Tab button render
-  // _getTabButton(){
-  //   var list = [];
-  //   this.state.imgData.ctg.filter((data)=>{return (data.length>0)})
-  //   .map((data,i)=>{
-  //     list.push(
-  //       <View key={i} style={{flex:1}}>
-  //         <Button key={i}  onPress={()=>{ this.setState({currentCtg: data.value});
-  //         }}>
-  //           <View style={{height:PIXEL_Y * 36, justifyContent:'center' , alignItems: 'center'}} key={i}>
-  //             <Text  key={i} style={{
-  //               color: '#4a4a4a',
-  //               fontWeight: (this.state.currentCtg == data.value) ? 'bold': 'normal',
-  //               fontSize: PIXEL_X * 15
-  //               }}>{data.name}</Text>
-  //           </View>
-  //         </Button>
-  //       </View>
-  //
-  //     );
-  //   })
-  //   return list.valueOf();
-  // }
+  //Tab button render
+  _getTabButton(){
+    var list = [];
+
+    for(let i=0;i<3;i++){
+      list.push(
+        <View key={i} style={{flex:1}}>
+          <Button key={i}  onPress={()=>{this.setState({currentCtg: 1});}}>
+            <View style={{height:PIXEL_Y * 36, justifyContent:'center' , alignItems: 'center'}} key={i}>
+              <Text  key={i} style={{
+                color: '#4a4a4a',
+                fontWeight: (this.state.currentCtg == 1) ? 'bold': 'normal',
+                fontSize: PIXEL_X * 15
+              }}>{i}</Text>
+            </View>
+          </Button>
+        </View>
+      );
+    }
+    return list.valueOf();
+  }
+
+  //랜더 탭버튼
+  _renderTabs() {
+    return(
+      <View style={styles.tabs}>
+        {this._getTabButton()}
+      </View>
+    );
+  }
 
   //썸네일 리스트 생성
   _getThumbnailImageList() {
     var list = [];
-    for(let i=1 ; i<11; i++) {
+    for(let i=0 ; i<9; i++) {
+      let j = i + 1;
       list.push(
         <View key={i}>
           <Button onPress={()=>{this.setState({indexNum: i, isThumb: true})}}>
-            <Image style={styles.thumnail} source={{url: '/Users/laon/WorkSpace/react_native_silde_show/images/'+i+'.png'}}>
+            <Image style={styles.thumnail} source={{url: '/Users/laon/WorkSpace/react_native_silde_show/images/'+j+'.png'}}>
               {this._renderLayer(i)}
             </Image>
           </Button>
@@ -109,7 +117,6 @@ class App extends Component {
           {this._getSwipeImageList()}
         </Swiper>
 
-
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {this._getThumbnailImageList()}
         </ScrollView>
@@ -122,6 +129,7 @@ class App extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {this._renderTabs()}
         {this._renderTopSwiper()}
       </View>
     );
@@ -130,7 +138,16 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#f8f8fc',
+  },
+  tabs:{
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent:'space-around',
+    height:PIXEL_Y * 36,
+    backgroundColor: '#f8f8fc',
+    marginTop: PIXEL_Y * 20,
+    borderWidth:1,
   },
   slide: {
     alignItems: 'center',
