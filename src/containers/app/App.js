@@ -27,21 +27,41 @@ class App extends Component {
     super(props);
     this.state = {
       indexNum: 0,
+      imageIndex: 10,
+    }
+  }
+
+  //tab 버튼의 index 값을 받아온다.
+  _getCurrnetCtg(index) {
+    this.setState({currentCtg: index})
+    switch (index) {
+      case 0:
+        this.setState({imageIndex:10});
+        break;
+      case 1:
+        this.setState({imageIndex:3});
+        break;
+      case 2:
+        this.setState({imageIndex:5});
+        break;
+      default:
+        this.setState({imageIndex:10})
     }
   }
 
   //Tab button render
   _getTabButton(){
     var list = [];
-
     for(let i=0;i<3;i++){
       list.push(
-        <View key={i} style={{flex:1}}>
-          <Button key={i}  onPress={()=>{this.setState({currentCtg: 1});}}>
+        <View key={i} style={{flex:1, borderWidth: 1}}>
+          <Button key={i}  onPress={()=>{this.setState({currentCtg: i});
+            this._getCurrnetCtg(i);
+          }}>
             <View style={{height:PIXEL_Y * 36, justifyContent:'center' , alignItems: 'center'}} key={i}>
               <Text  key={i} style={{
                 color: '#4a4a4a',
-                fontWeight: (this.state.currentCtg == 1) ? 'bold': 'normal',
+                fontWeight: (this.state.currentCtg === i) ? 'bold': 'normal',
                 fontSize: PIXEL_X * 15
               }}>{i}</Text>
             </View>
@@ -64,7 +84,7 @@ class App extends Component {
   //썸네일 리스트 생성
   _getThumbnailImageList() {
     var list = [];
-    for(let i=0 ; i<9; i++) {
+    for(let i=0 ; i<this.state.imageIndex; i++) {
       let j = i + 1;
       list.push(
         <View key={i}>
@@ -95,9 +115,10 @@ class App extends Component {
   //Swipe 이미지 리스트 생성
   _getSwipeImageList() {
     var list = [];
-    for(let i=1 ; i<11; i++){
+    for(let i=0 ; i<this.state.imageIndex; i++){
+      let j = i + 1;
       list.push(<Image key={i} style={styles.slide}
-      source={ {url : '/Users/laon/WorkSpace/react_native_silde_show/images/'+i+'.png'}}/>);
+      source={ {url : '/Users/laon/WorkSpace/react_native_silde_show/images/'+j+'.png'}}/>);
     }
     return list.valueOf();
   }
@@ -147,7 +168,6 @@ const styles = StyleSheet.create({
     height:PIXEL_Y * 36,
     backgroundColor: '#f8f8fc',
     marginTop: PIXEL_Y * 20,
-    borderWidth:1,
   },
   slide: {
     alignItems: 'center',
