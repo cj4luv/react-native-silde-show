@@ -18,6 +18,7 @@ const WINDOW_HEIGHT = Dimensions.get('window').height;
 const PIXEL_X = WINDOW_WIDTH/375;
 const PIXEL_Y = WINDOW_HEIGHT/667;
 
+import Button from '../../components/buttons/Button';
 import Swiper from '../../components/swiper/Swiper';
 
 class App extends Component {
@@ -53,43 +54,42 @@ class App extends Component {
   //   return list.valueOf();
   // }
 
-  // //썸네일 리스트 생성
-  // _getThumbnailImageList() {
-  //   var list = [];
-  //   if(this.state.currentCtg == 0 ){
-  //     this.state.thumbList.map((data, i) =>{
-  //       list.push(
-  //         <View key={i}>
-  //           <Button onPress={()=>{this.setState({indexNum: i, isThumb: true})}}>
-  //             <Image style={styles.thumnail} source={{url: data.url}}>
-  //               {this._renderLayer(i)}
-  //             </Image>
-  //           </Button>
-  //         </View>
-  //       );
-  //     });
-  //   }else{
-  //     this.state.thumbList.filter((data)=> {return (data.ctg == this.state.currentCtg)})
-  //     .map((data, i) =>{
-  //       list.push(
-  //         <View key={i}>
-  //           <Button onPress={()=>{this.setState({indexNum: i, isThumb: true})}}>
-  //             <Image style={styles.thumnail} source={{url: data.url}} >
-  //               {this._renderLayer(i)}
-  //             </Image>
-  //           </Button>
-  //         </View>
-  //       );
-  //     });
-  //   }
-  //   return list.valueOf();
-  // }
+  //썸네일 리스트 생성
+  _getThumbnailImageList() {
+    var list = [];
+    for(let i=1 ; i<11; i++) {
+      list.push(
+        <View key={i}>
+          <Button onPress={()=>{this.setState({indexNum: i, isThumb: true})}}>
+            <Image style={styles.thumnail} source={{url: '/Users/laon/WorkSpace/react_native_silde_show/images/'+i+'.png'}}>
+              {this._renderLayer(i)}
+            </Image>
+          </Button>
+        </View>
+      );
+    }
+    return list.valueOf();
+  }
+
+  //선택된 썸네일 이미지에 투명 레이어 추가
+  _renderLayer(index) {
+    if(this.state.isThumb === true && this.state.indexNum === index) {
+      return(
+        <View style={{
+          height: PIXEL_Y * 70,
+          width: PIXEL_X * 70,
+          backgroundColor:'#fff',
+          opacity: 0.6}} />
+      );
+    }
+  }
 
   //Swipe 이미지 리스트 생성
   _getSwipeImageList() {
     var list = [];
     for(let i=1 ; i<11; i++){
-      list.push(<Image key={i} style={styles.slide} source={ {url : '/Users/laon/WorkSpace/react_native_silde_show/images/'+i+'.png'}}/>);
+      list.push(<Image key={i} style={styles.slide}
+      source={ {url : '/Users/laon/WorkSpace/react_native_silde_show/images/'+i+'.png'}}/>);
     }
     return list.valueOf();
   }
@@ -109,6 +109,10 @@ class App extends Component {
           {this._getSwipeImageList()}
         </Swiper>
 
+
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {this._getThumbnailImageList()}
+        </ScrollView>
 
       </View>
     );
@@ -134,7 +138,15 @@ const styles = StyleSheet.create({
     marginBottom:PIXEL_X * 2,
     width: WINDOW_WIDTH,
     flex: 1
-  }
+  },
+  thumnail: {
+    height: PIXEL_Y * 70,
+    width: PIXEL_X * 70,
+    marginRight:PIXEL_X * 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'cover'
+  },
 });
 
 module.exports = App;
