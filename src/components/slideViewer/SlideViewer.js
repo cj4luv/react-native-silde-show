@@ -19,47 +19,9 @@ import Button from '../buttons/Button';
 import Swiper from '../swiper/Swiper';
 
 class SlideViewer extends Component {
-
-  constructor(props){
-    super(props);
-    this.state = {
-      indexNum: 0,
-      selcetTab: 0,
-    }
+  static defaultPros = {
+    showTabs: false
   }
-
-  //Tab button render
-  _getTabButton() {
-    var list = [];
-    for(let i=0;i<this.props.tabIndex;i++){
-      list.push(
-        <View key={i} style={{flex:1, borderWidth: 1}}>
-          <Button key={i}  onPress={()=>{this.setState({currentCtg: i});
-          }}>
-            <View style={{height:PIXEL_Y * 36, justifyContent:'center' , alignItems: 'center'}} key={i}>
-              <Text  key={i} style={{
-                color: '#4a4a4a',
-                fontWeight: (this.state.currentCtg === i) ? 'bold': 'normal',
-                fontSize: PIXEL_X * 15
-              }}>{i}</Text>
-            </View>
-          </Button>
-        </View>
-      );
-    }
-    return list.valueOf();
-  }
-
-  render() {
-    return(
-      <View style={styles.tabs}>
-        {this._getTabButton()}
-      </View>
-    );
-  }
-}
-
-class ViewerTabs extends Component {
 
   constructor(props){
     super(props);
@@ -67,13 +29,13 @@ class ViewerTabs extends Component {
       tabIndex: 0
     }
   }
-  
+
   //Tab button render
   _getTabButton() {
     var list = [];
     for(let i=0;i<this.props.tabLength;i++){
       list.push(
-        <View key={i} style={{flex:1, borderWidth: 1}}>
+        <View key={i} style={{flex:1}}>
           <Button key={i}  onPress={()=>{this.setState({tabIndex: i});
             this.props.getTabIndex(i);
           }}>
@@ -123,12 +85,20 @@ class ViewerTabs extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        {this._renderTabs()}
-        {this._renderTopSwiper()}
-      </View>
-    );
+    if(this.props.showTabs === true) {
+      return (
+        <View style={styles.container}>
+          {this._renderTabs()}
+          {this._renderTopSwiper()}
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          {this._renderTopSwiper()}
+        </View>
+      );
+    }
   }
 }
 
@@ -148,5 +118,4 @@ const styles = StyleSheet.create({
 
 export {
   SlideViewer,
-  ViewerTabs
 }

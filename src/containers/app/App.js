@@ -18,7 +18,6 @@ const PIXEL_Y = WINDOW_HEIGHT/667;
 import Button from '../../components/buttons/Button';
 import {
   SlideViewer,
-  ViewerTabs
 } from '../../components/slideViewer/SlideViewer';
 
 class App extends Component {
@@ -56,7 +55,7 @@ class App extends Component {
   }
 
   //Swipe 이미지 리스트 생성
-  _getSwipeImageList(imageLength) {
+  getSwipeImageList(imageLength) {
     var list = [];
     for(let i=0 ; i<imageLength; i++){
       let j = i + 1;
@@ -65,12 +64,11 @@ class App extends Component {
           source={ {url : '/Users/laon/WorkSpace/react_native_silde_show/images/'+j+'.png'}}/>
       );
     }
-    console.log(list.valueOf());
     return list.valueOf();
   }
 
   //썸네일 리스트 생성
-  _getThumbnailImageList(imageLength) {
+  getThumbnailImageList(imageLength) {
     var list = [];
     for(let i=0 ; i<imageLength; i++) {
       let j = i + 1;
@@ -103,11 +101,12 @@ class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ViewerTabs swiperIndex={this.state.swiperIndex}
+        <SlideViewer swiperIndex={this.state.swiperIndex}
+          showTabs={true}
           tabLength={this.state.tabLength}
           getTabIndex={this.getTabIndex.bind(this)}
-          getSwipeImageList={this._getSwipeImageList(this.setImageLength(this.state.tabIndex))}
-          getThumbnailImageList={this._getThumbnailImageList(this.setImageLength(this.state.tabIndex))}
+          getSwipeImageList={this.getSwipeImageList(this.setImageLength(this.state.tabIndex))}
+          getThumbnailImageList={this.getThumbnailImageList(this.setImageLength(this.state.tabIndex))}
         />
       </View>
     );
