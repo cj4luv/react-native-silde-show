@@ -2,9 +2,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  AlertIOS,
-  NavigatorIOS,
-  TouchableHighlight,
   ScrollView,
   View,
   Text,
@@ -27,41 +24,64 @@ class SlideViewer extends Component {
     super(props);
     this.state = {
       indexNum: 0,
-      imageIndex: 10,
-    }
-  }
-
-  //tab 버튼의 index 값을 받아온다.
-  _getCurrnetCtg(index) {
-    this.setState({currentCtg: index})
-    switch (index) {
-      case 0:
-        this.setState({imageIndex:10});
-        break;
-      case 1:
-        this.setState({imageIndex:3});
-        break;
-      case 2:
-        this.setState({imageIndex:5});
-        break;
-      default:
-        this.setState({imageIndex:10})
+      selcetTab: 0,
     }
   }
 
   //Tab button render
-  _getTabButton(){
+  _getTabButton() {
     var list = [];
-    for(let i=0;i<3;i++){
+    for(let i=0;i<this.props.tabIndex;i++){
       list.push(
         <View key={i} style={{flex:1, borderWidth: 1}}>
           <Button key={i}  onPress={()=>{this.setState({currentCtg: i});
-            this._getCurrnetCtg(i);
           }}>
             <View style={{height:PIXEL_Y * 36, justifyContent:'center' , alignItems: 'center'}} key={i}>
               <Text  key={i} style={{
                 color: '#4a4a4a',
                 fontWeight: (this.state.currentCtg === i) ? 'bold': 'normal',
+                fontSize: PIXEL_X * 15
+              }}>{i}</Text>
+            </View>
+          </Button>
+        </View>
+      );
+    }
+    return list.valueOf();
+  }
+
+  render() {
+    return(
+      <View style={styles.tabs}>
+        {this._getTabButton()}
+      </View>
+    );
+  }
+}
+
+class ViewerTabs extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      indexNum: 0,
+      tabIndex: 0
+    }
+  }
+
+  //Tab button render
+  _getTabButton() {
+    var list = [];
+    for(let i=0;i<this.props.tabLength;i++){
+      list.push(
+        <View key={i} style={{flex:1, borderWidth: 1}}>
+          <Button key={i}  onPress={()=>{this.setState({tabIndex: i});
+            this.props.getTabIndex(i);
+          }}>
+            <View style={{height:PIXEL_Y * 36, justifyContent:'center' , alignItems: 'center'}} key={i}>
+              <Text  key={i} style={{
+                color: '#4a4a4a',
+                fontWeight: (this.state.tabIndex === i) ? 'bold': 'normal',
                 fontSize: PIXEL_X * 15
               }}>{i}</Text>
             </View>
@@ -84,7 +104,7 @@ class SlideViewer extends Component {
   //썸네일 리스트 생성
   _getThumbnailImageList() {
     var list = [];
-    for(let i=0 ; i<this.state.imageIndex; i++) {
+    for(let i=0 ; i<this.props.imageLength; i++) {
       let j = i + 1;
       list.push(
         <View key={i}>
@@ -115,7 +135,7 @@ class SlideViewer extends Component {
   //Swipe 이미지 리스트 생성
   _getSwipeImageList() {
     var list = [];
-    for(let i=0 ; i<this.state.imageIndex; i++){
+    for(let i=0 ; i<this.props.imageLength; i++){
       let j = i + 1;
       list.push(<Image key={i} style={styles.slide}
       source={ {url : '/Users/laon/WorkSpace/react_native_silde_show/images/'+j+'.png'}}/>);
@@ -141,11 +161,9 @@ class SlideViewer extends Component {
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {this._getThumbnailImageList()}
         </ScrollView>
-
       </View>
     );
   }
-
 
   render() {
     return (
@@ -186,4 +204,7 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = SlideViewer;
+export {
+  SlideViewer,
+  ViewerTabs
+}
