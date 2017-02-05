@@ -28,7 +28,8 @@ class App extends Component {
     this.state = {
       tabLength: 3,
       tabIndex:0,
-      swiperIndex: 0
+      swiperIndex: 0,
+      isShowLayer: true,
     }
   }
 
@@ -75,7 +76,7 @@ class App extends Component {
       let j = i + 1;
       list.push(
         <View key={i}>
-          <Button onPress={()=>{this.setState({swiperIndex: i, isThumb: true})}}>
+          <Button onPress={()=>{this.setState({swiperIndex: i, isShowLayer: true})}}>
             <Image style={styles.thumnail} source={{url: '/Users/laon/WorkSpace/react_native_silde_show/images/'+j+'.png'}}>
               {this._renderLayer(i)}
             </Image>
@@ -88,7 +89,7 @@ class App extends Component {
 
   //선택된 썸네일 이미지에 투명 레이어 추가
   _renderLayer(index) {
-    if(this.state.isThumb === true && this.state.swiperIndex === index) {
+    if(this.state.isShowLayer === true && this.state.swiperIndex === index) {
       return(
         <View style={{
           height: PIXEL_Y * 70,

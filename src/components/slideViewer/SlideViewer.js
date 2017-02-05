@@ -64,11 +64,10 @@ class ViewerTabs extends Component {
   constructor(props){
     super(props);
     this.state = {
-      indexNum: 0,
       tabIndex: 0
     }
   }
-
+  
   //Tab button render
   _getTabButton() {
     var list = [];
