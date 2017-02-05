@@ -101,65 +101,23 @@ class ViewerTabs extends Component {
     );
   }
 
-  //썸네일 리스트 생성
-  _getThumbnailImageList() {
-    var list = [];
-    for(let i=0 ; i<this.props.imageLength; i++) {
-      let j = i + 1;
-      list.push(
-        <View key={i}>
-          <Button onPress={()=>{this.setState({indexNum: i, isThumb: true})}}>
-            <Image style={styles.thumnail} source={{url: '/Users/laon/WorkSpace/react_native_silde_show/images/'+j+'.png'}}>
-              {this._renderLayer(i)}
-            </Image>
-          </Button>
-        </View>
-      );
-    }
-    return list.valueOf();
-  }
-
-  //선택된 썸네일 이미지에 투명 레이어 추가
-  _renderLayer(index) {
-    if(this.state.isThumb === true && this.state.indexNum === index) {
-      return(
-        <View style={{
-          height: PIXEL_Y * 70,
-          width: PIXEL_X * 70,
-          backgroundColor:'#fff',
-          opacity: 0.6}} />
-      );
-    }
-  }
-
-  //Swipe 이미지 리스트 생성
-  _getSwipeImageList() {
-    var list = [];
-    for(let i=0 ; i<this.props.imageLength; i++){
-      let j = i + 1;
-      list.push(<Image key={i} style={styles.slide}
-      source={ {url : '/Users/laon/WorkSpace/react_native_silde_show/images/'+j+'.png'}}/>);
-    }
-    return list.valueOf();
-  }
-
   //스와이프 렌더링 부분
   _renderTopSwiper() {
     return(
       <View>
         <Swiper
           loadMinimal={true}
-          index={this.state.indexNum}
+          index={this.props.swiperIndex}
           showsButtons
           loop={false}
           showsPagination={false}
           height={PIXEL_X * 250}
         >
-          {this._getSwipeImageList()}
+          {this.props.getSwipeImageList}
         </Swiper>
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {this._getThumbnailImageList()}
+          {this.props.getThumbnailImageList}
         </ScrollView>
       </View>
     );
@@ -186,22 +144,7 @@ const styles = StyleSheet.create({
     height:PIXEL_Y * 36,
     backgroundColor: '#f8f8fc',
     marginTop: PIXEL_Y * 20,
-  },
-  slide: {
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    marginBottom:PIXEL_X * 2,
-    width: WINDOW_WIDTH,
-    flex: 1
-  },
-  thumnail: {
-    height: PIXEL_Y * 70,
-    width: PIXEL_X * 70,
-    marginRight:PIXEL_X * 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    resizeMode: 'cover'
-  },
+  }
 });
 
 export {
